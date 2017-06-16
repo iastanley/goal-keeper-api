@@ -6,6 +6,6 @@ deploy:
   provider: heroku
   api_key:
     secure: S5pthvSo0JAAeJaL4MxbZsNjhixl3LT/yuxDJiZeBBmNWFh5l36N+q9H4Gjv9E7by8UtGddEJ2e/PQLR1eZtZv7ANY/DkpZINuYptl5tk7LK621szd08t6k7vr4/RMwBi6mw7I5V3ej6oJOevKWVeVUJlrzWGIfJMAAdLoFAFxfsSgP5s/0K9e1TsnAkDJKpwn9WBcS1n2OvnYGKeMpNveCXGMq3XyPMf1HtOue9C5TOZL5vbCe+yQU+nxH0nEftqRGtah2Cppu9XKBRsGGyYPHpt/Y7RawzBb5hR8b3Zy+jrLHorI3uGvMB+0M3b1R166wAqL2D1YHG54pXoce8G3X5ASI0eReAUwmwnlWCk7pBs0mqHB9OFT56EZlXB7B9o25L55V3y2brh5QbSraIPW7afDCXkvoUO1TCb3qVC1Doo4Dzlfu3kjxR8QZfq+v5eiwJL8m3WIj5wGS+gWd5d+4QVs5BWO1L9P/o81sZLYGbVfZhiec/zKWPhTejSPNMmMCi61brnkIaRjM3joYkA8l4R4u6L2tuq1105vqXEAFrlLBq+cOVR10hgifaQ1ZVo7XGfpTAwKVMcWO1cQeWHPCimFF+ymbtqoOb1eAEviSRZiplfp+9+1HAQONcpd/FdliEv+/ic1CANh1n/9q0jUIC1kFMAq4JVJSK0OcaZvs=
-  app: fathomless-shelf-84117
+  app: goal-keeper-api
   on:
     repo: iastanley/goal-keeper-api
