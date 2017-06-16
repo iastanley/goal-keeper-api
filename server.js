@@ -6,42 +6,51 @@ const app = express();
 const { PORT, DATABASE_URL } = require('./config.js');
 mongoose.Promise = global.Promise;
 
-let server;
+// FOR TESTING ONLY
+app.get('/api/*', (req, res) => {
+  res.json({ok: true});
+});
 
-function runServer(databaseUrl=DATABASE_URL, port=PORT) {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, err => {
-      if (err) {
-        return reject(err);
-      }
-      server = app.listen(port, () => {
-        console.log(`Server started on port: ${port}`);
-        resolve();
-      })
-      .on('error', err => {
-        reject(err);
-      });
-    });
-  });
-}
+app.listen(PORT, () => console.log(`Listening at port ${PORT}`));
 
-function closeServer() {
-  return mongoose.disconnect().then(() => {
-    return new Promise((resolve, reject) => {
-      console.log('Closing server');
-      server.close(err => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve();
-      });
-    });
-  });
-}
+// let server;
+//
+// function runServer(databaseUrl=DATABASE_URL, port=PORT) {
+//   return new Promise((resolve, reject) => {
+//     mongoose.connect(databaseUrl, err => {
+//       if (err) {
+//         return reject(err);
+//       }
+//       server = app.listen(port, () => {
+//         console.log(`Server started on port: ${port}`);
+//         resolve();
+//       })
+//       .on('error', err => {
+//         reject(err);
+//       });
+//     });
+//   });
+// }
+//
+// function closeServer() {
+//   return mongoose.disconnect().then(() => {
+//     return new Promise((resolve, reject) => {
+//       console.log('Closing server');
+//       server.close(err => {
+//         if (err) {
+//           reject(err);
+//           return;
+//         }
+//         resolve();
+//       });
+//     });
+//   });
+// }
+//
+// if (require.main === module) {
+//   runServer().catch(err => console.error(err));
+// }
 
-if (require.main === module) {
-  runServer().catch(err => console.error(err));
-}
+// module.exports = {app, runServer, closeServer};
 
-module.exports = {app, runServer, closeServer};
+module.exports = { app };
