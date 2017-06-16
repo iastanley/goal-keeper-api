@@ -8,5 +8,9 @@
     "start": "node server.js"
   },
   "author": "Illana Stanley",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongoose": "^4.10.6"
+  }
 }
