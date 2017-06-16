@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
+const goalRouter = require('./routers/goalRouter');
 const app = express();
 
 const { PORT, DATABASE_URL } = require('./config.js');
@@ -13,9 +14,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// FOR TESTING ONLY
-app.get('/api/*', (req, res) => {
-  res.json({ok: true});
+app.use('/goals', goalRouter);
+
+
+app.get('*', (req, res) => {
+  res.status(404).json({message: 'Request not found'});
 });
 
 let server;
