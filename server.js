@@ -6,6 +6,13 @@ const app = express();
 const { PORT, DATABASE_URL } = require('./config.js');
 mongoose.Promise = global.Promise;
 
+// enable CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // FOR TESTING ONLY
 app.get('/api/*', (req, res) => {
   res.json({ok: true});
