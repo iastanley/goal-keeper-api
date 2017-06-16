@@ -57,4 +57,18 @@ router.post('/', (req, res) => {
     });
 });
 
+// PUT request to add task to a route or change name or color
+router.put('/:id', (req, res) => {
+  //verify that req.params.id and req.body.id match
+  if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    const message = `Path id: ${req.params.id} and request body id: ${req.body.id} don't match`;
+    console.error(message);
+    res.status(400).json({message: message});
+  }
+
+  // first focus on adding a new task
+  // should tasks be part of goals or separate model?
+
+});
+
 module.exports = router;
