@@ -10,7 +10,16 @@ const { Goal } = require('../models/models');
 router.use(bodyParser.json());
 
 router.get('/', (req, res) => {
-  res.status(200).send("Goal root route");
+  Goal
+    .find()
+    .exec()
+    .then(goals => {
+      res.status(200).json(goals);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    })
 });
 
 module.exports = router;
