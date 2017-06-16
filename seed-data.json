@@ -1,0 +1,75 @@
+{
+  "user": "Illy",
+  "title": "Goal 1",
+  "color": "#000",
+  "tasks": {
+    "0": {
+      "name": "task 0",
+      "completed": "false",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    },
+    "1": {
+      "name": "task 1",
+      "completed": "false",
+      "start": "2017-01-6",
+      "end": "2017-01-6"
+    },
+    "2": {
+      "name": "task 2",
+      "completed": "false",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    }
+  }
+}
+{
+  "user": "Illy",
+  "title": "Goal 2",
+  "color": "#f00",
+  "tasks": {
+    "0": {
+      "name": "task 0",
+      "completed": "true",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    },
+    "1": {
+      "name": "task 1",
+      "completed": "false",
+      "start": "2017-01-6",
+      "end": "2017-01-6"
+    },
+    "2": {
+      "name": "task 2",
+      "completed": "true",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    }
+  }
+}
+{
+  "user": "Illy",
+  "title": "Goal 3",
+  "color": "#f0f",
+  "tasks": {
+    "0": {
+      "name": "task 0",
+      "completed": "false",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    },
+    "1": {
+      "name": "task 1",
+      "completed": "false",
+      "start": "2017-01-6",
+      "end": "2017-01-6"
+    },
+    "2": {
+      "name": "task 2",
+      "completed": "true",
+      "start": "2017-16-6",
+      "end": "2017-16-6"
+    }
+  }
+}
