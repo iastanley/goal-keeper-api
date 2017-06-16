@@ -1,0 +1,12 @@
+{
+  "name": "goal-keeper-server",
+  "version": "1.0.0",
+  "description": "server for goal-keeper app",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "Illana Stanley",
+  "license": "ISC"
+}
