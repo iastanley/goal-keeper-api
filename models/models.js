@@ -10,8 +10,16 @@ const goalSchema = mongoose.Schema({
   user: String,
   title: String,
   color: String,
-  tasks: {}
+  tasks: [{
+    name: String,
+    completed: Boolean,
+    start: Date,
+    end: Date
+  }]
 });
+
+
+
 
 const Goal = mongoose.model('Goal', goalSchema);
 
