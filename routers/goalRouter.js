@@ -64,23 +64,37 @@ router.put('/:id', (req, res) => {
     res.status(400).json({message: message});
   }
 
-  // first focus on adding a new task
-  console.log(req.body);
-
   // if the update is for adding a task to a goal
   if (req.body.task) {
     Goal
       .findOneAndUpdate({_id: req.params.id}, {$addToSet: {tasks: req.body.task}}, {new: true})
       .exec()
-      .then( goal => {
+      .then(goal => {
         res.status(201).json(goal);
       })
       .catch(err => {
         console.error(err);
+        res.status(500).json({message: 'Internal server error at goals PUT request'})
       });
   } else {
     // code for handling updates to goal title and goal color
-    const updatesToGoal = {}
+    const updatesToGoal = {};
+    const updateFields = ['title', 'color'];
+    updateFields.forEach(field => {
+      if (field in req.body) {
+        updatesToGoal[field] = req.body[field];
+      }
+    });
+    Goal
+      .findOneAndUpdate({_id: req.params.id}, {$set: updatesToGoal}, {new: true})
+      .exec()
+      .then(goal => {
+        res.status(201).json(goal);
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal server error at goals PUT request'});
+      });
   }
 
 });
