@@ -10,12 +10,12 @@ const { Goal } = require('../models/models');
 router.use(bodyParser.json());
 
 // For Testing Only
-let currentUser = "Illy";
+let defaultUser = "Illy";
 
 // GET all goals
 router.get('/', (req, res) => {
   Goal
-    .find({user: currentUser})
+    .find({user: defaultUser})
     .exec()
     .then(goals => {
       res.status(200).json(goals);
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
   });
 
   let newData = {
-    user: currentUser,
+    user: req.body.user || defaultUser,
     title: req.body.title,
     color: req.body.color,
     tasks: []
@@ -67,15 +67,21 @@ router.put('/:id', (req, res) => {
   // first focus on adding a new task
   console.log(req.body);
 
-  Goal
-    .findOneAndUpdate({_id: req.params.id}, {$addToSet: {tasks: req.body}})
-    .exec()
-    .then( goal => {
-      res.status(204).json(goal);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  // if the update is for adding a task to a goal
+  if (req.body.task) {
+    Goal
+      .findOneAndUpdate({_id: req.params.id}, {$addToSet: {tasks: req.body.task}}, {new: true})
+      .exec()
+      .then( goal => {
+        res.status(201).json(goal);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  } else {
+    // code for handling updates to goal title and goal color
+    const updatesToGoal = {}
+  }
 
 });
 
