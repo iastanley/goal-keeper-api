@@ -99,4 +99,47 @@ router.put('/:id', (req, res) => {
 
 });
 
+//retrieve all tasks for a specific goal
+router.get('/:goalId/tasks', (req, res) => {
+  Goal
+    .findById(req.params.goalId)
+    .exec()
+    .then(goal => {
+      res.status(200).json(goal.tasks);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+});
+
+// adding a new task function should be pulled into a different route
+// router.post('/:goalId/tasks' ...)
+
+//update a task
+router.put('/:goalId/tasks/:taskId', (req, res) => {
+  if (!req.body.goalId || !req.body.taskId) {
+    res.status(400).json({message: 'Request does not have goalId and taskId'});
+  }
+
+  const updatesToTask = {}
+  const updateFields = ['name', 'completed', 'start', 'end'];
+  updateFields.forEach(field => {
+    if (field in req.body) {
+      updatesToTask[`tasks.$.${field}`] = req.body[field];
+    }
+  });
+  console.log(updatesToTask);
+  Goal
+    .findOneAndUpdate({_id: req.params.goalId, 'tasks._id': req.params.taskId}, {$set: updatesToTask}, {new: true})
+    .exec()
+    .then(goal => {
+      res.status(201).json(goal);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error'});
+    });
+});
+
 module.exports = router;
