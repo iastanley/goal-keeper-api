@@ -142,4 +142,34 @@ router.put('/:goalId/tasks/:taskId', (req, res) => {
     });
 });
 
+//delete route for a goal
+router.delete('/:id', (req, res) => {
+  Goal
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error at DELETE goals route'});
+    });
+});
+
+//delete route for a task
+router.delete('/:goalId/tasks/:taskId', (req, res) => {
+  Goal
+    .findOneAndUpdate(
+      {_id: req.params.goalId},
+      {$pull: {tasks: {_id: req.params.taskId} } }, {new: true})
+    .exec()
+    .then(goal => {
+      res.status(201).json(goal)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error at DELETE tasks route'});
+    });
+});
+
 module.exports = router;
