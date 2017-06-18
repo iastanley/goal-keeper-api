@@ -55,7 +55,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// PUT request to add task to a route or change name or color
+// PUT request to update title or color of goal
 router.put('/:id', (req, res) => {
   //verify that req.params.id and req.body.id match
   if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -64,39 +64,38 @@ router.put('/:id', (req, res) => {
     res.status(400).json({message: message});
   }
 
-  // if the update is for adding a task to a goal
-  if (req.body.task) {
-    Goal
-      .findOneAndUpdate({_id: req.params.id}, {$addToSet: {tasks: req.body.task}}, {new: true})
-      .exec()
-      .then(goal => {
-        res.status(201).json(goal);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({message: 'Internal server error at goals PUT request'})
-      });
-  } else {
-    // code for handling updates to goal title and goal color
-    const updatesToGoal = {};
-    const updateFields = ['title', 'color'];
-    updateFields.forEach(field => {
-      if (field in req.body) {
-        updatesToGoal[field] = req.body[field];
-      }
+  // code for handling updates to goal title and goal color
+  const updatesToGoal = {};
+  const updateFields = ['title', 'color'];
+  updateFields.forEach(field => {
+    if (field in req.body) {
+      updatesToGoal[field] = req.body[field];
+    }
+  });
+  Goal
+    .findOneAndUpdate({_id: req.params.id}, {$set: updatesToGoal}, {new: true})
+    .exec()
+    .then(goal => {
+      res.status(201).json(goal);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error at goals PUT request'});
     });
-    Goal
-      .findOneAndUpdate({_id: req.params.id}, {$set: updatesToGoal}, {new: true})
-      .exec()
-      .then(goal => {
-        res.status(201).json(goal);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).json({message: 'Internal server error at goals PUT request'});
-      });
-  }
+});
 
+//delete route for a goal
+router.delete('/:id', (req, res) => {
+  Goal
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error at DELETE goals route'});
+    });
 });
 
 //retrieve all tasks for a specific goal
@@ -114,7 +113,34 @@ router.get('/:goalId/tasks', (req, res) => {
 });
 
 // adding a new task function should be pulled into a different route
-// router.post('/:goalId/tasks' ...)
+router.post('/:goalId/tasks', (req, res) => {
+  const requiredFields = ['name', 'start', 'end'];
+  requiredFields.forEach(field => {
+    if (!(field in req.body)) {
+      const message = `Missing '${field}' in request body`;
+      console.error(message);
+      return res.status(400).json({message: message});
+    }
+  });
+
+  let newTask = {
+    name: req.body.name,
+    start: req.body.start,
+    end: req.body.end,
+    completed: false
+  }
+
+  Goal
+    .findOneAndUpdate({_id: req.params.goalId}, {$addToSet: {tasks: newTask} }, {new: true})
+    .exec()
+    .then(goal => {
+      res.status(201).json(goal);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: 'Internal server error at tasks POST request'});
+    });
+});
 
 //update a task
 router.put('/:goalId/tasks/:taskId', (req, res) => {
@@ -142,21 +168,9 @@ router.put('/:goalId/tasks/:taskId', (req, res) => {
     });
 });
 
-//delete route for a goal
-router.delete('/:id', (req, res) => {
-  Goal
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server error at DELETE goals route'});
-    });
-});
 
-//delete route for a task
+
+//delete a task
 router.delete('/:goalId/tasks/:taskId', (req, res) => {
   Goal
     .findOneAndUpdate(
