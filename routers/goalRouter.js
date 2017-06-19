@@ -9,13 +9,17 @@ mongoose.Promise = global.Promise;
 const { Goal } = require('../models/models');
 router.use(bodyParser.json());
 
-// For Testing Only
-let defaultUser = "Illy";
-
 // GET all goals
 router.get('/', (req, res) => {
+  let filter;
+  if (req.query.user) {
+    filter = {user: req.query.user};
+  } else {
+    filter = {};
+  }
+
   Goal
-    .find({user: req.query.user || defaultUser})
+    .find(filter)
     .exec()
     .then(goals => {
       res.status(200).json(goals);
