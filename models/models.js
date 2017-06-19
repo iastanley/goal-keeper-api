@@ -13,8 +13,7 @@ const goalSchema = mongoose.Schema({
   tasks: [{
     name: String,
     completed: Boolean,
-    start: Date,
-    end: Date
+    date: Date
   }]
 });
 

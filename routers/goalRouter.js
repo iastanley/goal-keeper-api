@@ -15,7 +15,7 @@ let defaultUser = "Illy";
 // GET all goals
 router.get('/', (req, res) => {
   Goal
-    .find({user: defaultUser})
+    .find({user: req.query.user || defaultUser})
     .exec()
     .then(goals => {
       res.status(200).json(goals);
@@ -114,7 +114,7 @@ router.get('/:goalId/tasks', (req, res) => {
 
 // adding a new task function should be pulled into a different route
 router.post('/:goalId/tasks', (req, res) => {
-  const requiredFields = ['name', 'start', 'end'];
+  const requiredFields = ['name', 'date'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
       const message = `Missing '${field}' in request body`;
@@ -125,8 +125,7 @@ router.post('/:goalId/tasks', (req, res) => {
 
   let newTask = {
     name: req.body.name,
-    start: req.body.start,
-    end: req.body.end,
+    start: req.body.date,
     completed: false
   }
 
@@ -149,13 +148,13 @@ router.put('/:goalId/tasks/:taskId', (req, res) => {
   }
 
   const updatesToTask = {}
-  const updateFields = ['name', 'completed', 'start', 'end'];
+  const updateFields = ['name', 'completed', 'date'];
   updateFields.forEach(field => {
     if (field in req.body) {
       updatesToTask[`tasks.$.${field}`] = req.body[field];
     }
   });
-  console.log(updatesToTask);
+
   Goal
     .findOneAndUpdate({_id: req.params.goalId, 'tasks._id': req.params.taskId}, {$set: updatesToTask}, {new: true})
     .exec()
