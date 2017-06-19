@@ -129,7 +129,7 @@ router.post('/:goalId/tasks', (req, res) => {
 
   let newTask = {
     name: req.body.name,
-    start: req.body.date,
+    date: req.body.date,
     completed: false
   }
 
