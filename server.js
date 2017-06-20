@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const goalRouter = require('./routers/goalRouter');
+const userRouter = require('./routers/userRouter');
 const app = express();
 
 const { PORT, DATABASE_URL } = require('./config.js');
@@ -15,6 +16,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/goals', goalRouter);
+app.use('/users', userRouter);
+
+
 
 
 app.get('*', (req, res) => {

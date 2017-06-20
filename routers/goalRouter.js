@@ -12,6 +12,7 @@ router.use(bodyParser.json());
 // GET all goals
 router.get('/', (req, res) => {
   let filter;
+  // use req.user._id once passport is set up from users collection
   if (req.query.user) {
     filter = {user: req.query.user};
   } else {

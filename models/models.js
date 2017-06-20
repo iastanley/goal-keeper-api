@@ -32,8 +32,18 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  firstName: {type: String, default: ""},
+  lastName: {type: String, default: ""}
 });
+
+userSchema.methods.apiRepr = function() {
+  return {
+    username: this.username || '',
+    firstName: this.firstName || '',
+    lastName: this.lastName || ''
+  };
+}
 
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compare(password, this.password);
