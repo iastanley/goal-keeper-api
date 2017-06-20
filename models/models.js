@@ -17,9 +17,6 @@ const goalSchema = mongoose.Schema({
   }]
 });
 
-
-
-
 const Goal = mongoose.model('Goal', goalSchema);
 
 // MODEL FOR USERS
@@ -32,16 +29,12 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  firstName: {type: String, default: ""},
-  lastName: {type: String, default: ""}
+  }
 });
 
 userSchema.methods.apiRepr = function() {
   return {
-    username: this.username || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || ''
+    username: this.username || ''
   };
 }
 

@@ -1,9 +1,9 @@
-const {BasicStrategy} = require('passport-http');
+const { BasicStrategy } = require('passport-http');
 const express = require('express');
 const jsonParser = require('body-parser').json();
 const passport = require('passport');
 
-const {User} = require('../models/models');
+const { User } = require('../models/models');
 
 const router = express.Router();
 
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
     return res.status(422).json({message: 'Missing field: username'});
   }
 
-  let {username, password, firstName, lastName} = req.body;
+  let {username, password} = req.body;
 
   if (typeof username !== 'string') {
     return res.status(422).json({message: 'Incorrect field type: username'});
@@ -87,9 +87,7 @@ router.post('/', (req, res) => {
       return User
         .create({
           username: username,
-          password: hash,
-          firstName: firstName,
-          lastName: lastName
+          password: hash
         })
     })
     .then(user => {
