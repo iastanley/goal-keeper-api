@@ -2,15 +2,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const router = express.Router();
 mongoose.Promise = global.Promise;
 
 const { Goal } = require('../models/models');
+const { basicStrategy } = require('./userRouter');
 router.use(bodyParser.json());
+passport.use(basicStrategy);
 
 // GET all goals
-router.get('/', (req, res) => {
+router.get('/',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   let filter;
   // use req.user._id once passport is set up from users collection
   if (req.query.user) {
@@ -32,7 +37,9 @@ router.get('/', (req, res) => {
 });
 
 // POST new goal to server and respond with new goal
-router.post('/', (req, res) => {
+router.post('/',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   const requiredFields = ['title', 'color'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
@@ -61,7 +68,9 @@ router.post('/', (req, res) => {
 });
 
 // PUT request to update title or color of goal
-router.put('/:id', (req, res) => {
+router.put('/:id',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   //verify that req.params.id and req.body.id match
   if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = `Path id: ${req.params.id} and request body id: ${req.body.id} don't match`;
@@ -90,7 +99,9 @@ router.put('/:id', (req, res) => {
 });
 
 //delete route for a goal
-router.delete('/:id', (req, res) => {
+router.delete('/:id',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   Goal
     .findByIdAndRemove(req.params.id)
     .exec()
@@ -104,7 +115,9 @@ router.delete('/:id', (req, res) => {
 });
 
 //retrieve all tasks for a specific goal
-router.get('/:goalId/tasks', (req, res) => {
+router.get('/:goalId/tasks',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   Goal
     .findById(req.params.goalId)
     .exec()
@@ -118,7 +131,9 @@ router.get('/:goalId/tasks', (req, res) => {
 });
 
 // adding a new task function should be pulled into a different route
-router.post('/:goalId/tasks', (req, res) => {
+router.post('/:goalId/tasks',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   const requiredFields = ['name', 'date'];
   requiredFields.forEach(field => {
     if (!(field in req.body)) {
@@ -147,7 +162,9 @@ router.post('/:goalId/tasks', (req, res) => {
 });
 
 //update a task
-router.put('/:goalId/tasks/:taskId', (req, res) => {
+router.put('/:goalId/tasks/:taskId',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   if (!req.body.goalId || !req.body.taskId) {
     res.status(400).json({message: 'Request does not have goalId and taskId'});
   }
@@ -172,10 +189,10 @@ router.put('/:goalId/tasks/:taskId', (req, res) => {
     });
 });
 
-
-
 //delete a task
-router.delete('/:goalId/tasks/:taskId', (req, res) => {
+router.delete('/:goalId/tasks/:taskId',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
   Goal
     .findOneAndUpdate(
       {_id: req.params.goalId},

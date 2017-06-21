@@ -105,4 +105,4 @@ router.get('/',
   passport.authenticate('basic', {session: false}),
   (req, res) => res.json({user: req.user.apiRepr()}))
 
-module.exports = router;
+module.exports = { router, basicStrategy };
