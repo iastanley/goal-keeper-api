@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.apiRepr = function() {
+userSchema.methods.apiRes = function() {
   return {
     username: this.username || ''
   };

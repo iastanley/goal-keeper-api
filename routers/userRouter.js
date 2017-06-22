@@ -91,7 +91,7 @@ router.post('/', (req, res) => {
         })
     })
     .then(user => {
-      return res.status(201).json(user.apiRepr());
+      return res.status(201).json(user.apiRes());
     })
     .catch(err => {
       if (err.name === 'AuthenticationError') {
@@ -103,6 +103,6 @@ router.post('/', (req, res) => {
 
 router.get('/',
   passport.authenticate('basic', {session: false}),
-  (req, res) => res.json({user: req.user.apiRepr()}))
+  (req, res) => res.json(req.user.apiRes()));
 
 module.exports = { router, basicStrategy };
