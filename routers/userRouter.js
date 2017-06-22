@@ -33,6 +33,7 @@ const basicStrategy = new BasicStrategy(function(username, password, callback) {
 
 passport.use(basicStrategy);
 
+// route to create new user
 router.post('/', (req, res) => {
   if (!req.body) {
     return res.status(400).json({message: 'No request body'});
@@ -99,6 +100,11 @@ router.post('/', (req, res) => {
       }
       res.status(500).json({message: 'Internal server error'})
     });
+});
+
+// route to login existing user
+router.get('/', passport.authenticate('basic', {session: false}), (req, res) => {
+  res.status(200).json({username: req.user.username});
 });
 
 module.exports = { router, basicStrategy };
