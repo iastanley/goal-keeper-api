@@ -101,8 +101,4 @@ router.post('/', (req, res) => {
     });
 });
 
-router.get('/',
-  passport.authenticate('basic', {session: false}),
-  (req, res) => res.json(req.user.apiRes()));
-
 module.exports = { router, basicStrategy };

@@ -12,16 +12,13 @@ mongoose.Promise = global.Promise;
 // enable CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
 
 app.use('/goals', goalRouter);
 app.use('/users', userRouter);
-
-
-
 
 app.get('*', (req, res) => {
   res.status(404).json({message: 'Request not found'});
