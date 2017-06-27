@@ -78,7 +78,7 @@ router.post('/', (req, res) => {
       if (count > 0) {
         return Promise.reject({
           name: 'AuthenticationError',
-          message: 'username already taken'
+          message: 'Username already taken'
         });
       }
       // if no existing user, hash password
