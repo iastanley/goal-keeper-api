@@ -102,6 +102,8 @@ describe('Goal Router API', function(){
             .then(count => {
               res.body.should.have.lengthOf(count);
             });
+        }).catch(err => {
+          throw new Error(err);
         });
     });
   });// end of goals GET request test
@@ -129,6 +131,9 @@ describe('Goal Router API', function(){
           goal.user.should.equal(newGoal.user);
           goal.title.should.equal(newGoal.title);
           goal.color.should.equal(newGoal.color);
+        })
+        .catch(err => {
+          throw new Error(err);
         });
     });
   }); // end of goals POST request test
@@ -156,6 +161,8 @@ describe('Goal Router API', function(){
           res.body.should.include.keys('user', 'title', 'color', 'tasks');
           res.body.title.should.equal(updateData.title);
           res.body.color.should.equal(updateData.color);
+        }).catch(err => {
+          throw new Error(err);
         });
     });
   }); // end of goals PUT request test
@@ -180,6 +187,8 @@ describe('Goal Router API', function(){
         })
         .then(goal => {
           should.not.exist(goal);
+        }).catch(err => {
+          throw new Error(err);
         });
     });
   }); // end of goals DELETE request test
@@ -204,6 +213,8 @@ describe('Goal Router API', function(){
             task.should.be.a('object');
             task.should.include.keys('name', 'completed', 'date');
           });
+        }).catch(err => {
+          throw new Error(err);
         });
     });
   }); // end of tasks GET request test
@@ -237,7 +248,9 @@ describe('Goal Router API', function(){
           lastAdded.date.should.equal(newTask.date);
           lastAdded.name.should.equal(newTask.name);
           lastAdded.completed.should.be.false;
-        })
+        }).catch(err => {
+          throw new Error(err);
+        });
     });
   }); // end of tasks POST request test
 
@@ -265,6 +278,9 @@ describe('Goal Router API', function(){
           const updatedTask = res.body.tasks[0];
           updatedTask.completed.should.equal(updateData.completed);
         })
+        .catch(err => {
+          throw new Error(err);
+        });
     });
   }); // end of tasks PUT request test
 
@@ -295,6 +311,9 @@ describe('Goal Router API', function(){
           for (const task of goal.tasks) {
             task._id.should.not.equal(deletedTask._id);
           }
+        })
+        .catch(err => {
+          throw new Error(err);
         });
     });
   }); // end of tasks DELETE request test
