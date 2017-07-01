@@ -79,7 +79,6 @@ describe('Goal Router API', function(){
   });
 
   beforeEach(function () {
-    // return seedTestGoalData();
     return seedTestUser(seedTestGoalData);
   });
 
@@ -89,7 +88,7 @@ describe('Goal Router API', function(){
 
   after(function() {
     return closeServer();
-  })
+  });
 
   describe('Goal GET request', function() {
     it('should return all goals', function(){
